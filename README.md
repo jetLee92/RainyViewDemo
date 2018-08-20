@@ -3,7 +3,7 @@ Android 仿七夕爱心雨，单身狗雨
 
 前几天七夕情人节，街上满是狗粮，连电影选座也来蹭热点，被单身狗雨和爱心雨刷屏了。这效果看着不错，实现起来也不难，决定自己仿一波。
 
-开始之前先上效果图，GitHub地址在文末
+开始之前先上效果图
 
 ![完整效果图](https://upload-images.jianshu.io/upload_images/5596129-46fb3939e4300892.gif?imageMogr2/auto-orient/strip)
 
@@ -129,6 +129,8 @@ Android 仿七夕爱心雨，单身狗雨
 	rainyView.startAnimator();
 
 这个效果的完成到这里就结束了。
+
+##### 写在最后
 
 这是GitHub地址[**单身狗雨**](https://github.com/jetLee92/RainyViewDemo)，完整代码可以从上面fork下来。喜欢的给个star呗，谢谢。
 
