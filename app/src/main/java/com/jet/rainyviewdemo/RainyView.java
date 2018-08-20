@@ -80,7 +80,7 @@ public class RainyView extends View {
             }
             matrix.reset();
             // 当前的高度 = 随机的初始高度（负值） + （view的高度 + 最高的狗头所在的高度 == 整个动画的高度）*系数
-            // 加上2*imageSize是为了保证狗头都落下底部外
+            // 加上2 * imageSize是为了保证狗头都落下底部外
             float dy = heightArr.get(i) + (maxHeight + height + 2 * imageSize) * rainyFraction;
             matrix.postTranslate(widthArr.get(i), dy);
             // 以狗头为中心旋转
@@ -90,7 +90,7 @@ public class RainyView extends View {
         canvas.restore();
     }
 
-    public void addItemRain() {
+    public void initCount() {
         widthArr.clear();
         heightArr.clear();
         angles.clear();
