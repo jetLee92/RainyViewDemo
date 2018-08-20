@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.jet.rainyviewdemo.RainyView
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <Button
+    <TextView
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_gravity="center"
+        android:background="@drawable/ripple_bg"
+        android:paddingBottom="8dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="8dp"
+        android:text="开始" />
 
-</RelativeLayout>
+    <com.jet.rainyviewdemo.RainyView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>

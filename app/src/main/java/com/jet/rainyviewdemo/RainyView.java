@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description：
+ * Description：单身狗雨
  * Author：Jet啟思
  * Time：2018/8/18 17:10
  */
@@ -22,39 +22,44 @@ public class RainyView extends View {
     private int imageSize = Utils.dpToPx(40);
     private Paint paint;
     private Bitmap bitmap;
-    private float rainyVelocity;
-    private Matrix matrix = new Matrix();
-    private Context context;
 
-    int height;
-    int width;
-    float maxHeight;
+    private ObjectAnimator objectAnimator;
+    // 效果系数
+    private float rainyFraction;
+    private Matrix matrix = new Matrix();
+
+    // view高
+    private int height;
+    // view宽
+    private int width;
+    // 距离顶部最大的高度
+    private float maxHeight;
+    // 狗头数量
+    private final int num = 30;
 
     private List<Float> widthArr = new ArrayList<>();
     private List<Float> heightArr = new ArrayList<>();
-    private List<Integer> angels = new ArrayList<>();
+    private List<Integer> angles = new ArrayList<>();
 
     public RainyView(Context context) {
         super(context);
-        this.context = context;
         init();
     }
 
     public RainyView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
         init();
     }
 
     public RainyView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         init();
     }
 
     private void init() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         bitmap = Utils.getBitmap(getResources(), imageSize, R.drawable.dog);
+//        bitmap = Utils.getBitmap(getResources(), imageSize, R.drawable.ic_favorite_red_a700_36dp);
     }
 
     @Override
@@ -68,11 +73,18 @@ public class RainyView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        for (int i = 0; i < widthArr.size(); i++) {
+        for (int i = 0; i < num; i++) {
+            // 重置matrix，必须重置不然会叠加
+            if (num != widthArr.size()) {
+                break;
+            }
             matrix.reset();
-            float dy = heightArr.get(i) + (maxHeight + height + imageSize) * rainyVelocity;
+            // 当前的高度 = 随机的初始高度（负值） + （view的高度 + 最高的狗头所在的高度 == 整个动画的高度）*系数
+            // 加上2*imageSize是为了保证狗头都落下底部外
+            float dy = heightArr.get(i) + (maxHeight + height + 2 * imageSize) * rainyFraction;
             matrix.postTranslate(widthArr.get(i), dy);
-            matrix.postRotate(angels.get(i) + 180 * rainyVelocity, imageSize / 2 + widthArr.get(i), imageSize / 2 + dy);
+            // 以狗头为中心旋转
+            matrix.postRotate(angles.get(i) + 180 * rainyFraction, imageSize / 2 + widthArr.get(i), imageSize / 2 + dy);
             canvas.drawBitmap(bitmap, matrix, paint);
         }
         canvas.restore();
@@ -81,43 +93,33 @@ public class RainyView extends View {
     public void addItemRain() {
         widthArr.clear();
         heightArr.clear();
-        for (int i = 0; i < 20; i++) {
-            widthArr.add((float) (width * Math.random()));
+        angles.clear();
+        for (int i = 0; i < num; i++) {
+            // 随机横向x的位置
+            widthArr.add((float) ((width - imageSize) * Math.random()));
             float tempHeight = (float) (height * Math.random());
+            // 随机的距离顶部的高度，是负值。加上imageSize是为了保证从顶部开始落下
             heightArr.add(-(imageSize + tempHeight));
             maxHeight = Math.max(tempHeight, maxHeight);
-            angels.add((int) (Math.random() * 360));
+            // 随机初始角度
+            angles.add((int) (Math.random() * 360));
         }
     }
 
-    private ObjectAnimator objectAnimator;
-
-    private ObjectAnimator getObjectAnimator() {
+    public void startAnimator() {
         if (objectAnimator == null) {
-            objectAnimator = ObjectAnimator.ofFloat(this, "rainyVelocity", 0, getHeight());
-            objectAnimator.setDuration(3000);
-            objectAnimator.setStartDelay(300);
+            objectAnimator = ObjectAnimator.ofFloat(this, "rainyFraction", 0, 1);
+            objectAnimator.setDuration(6000);
         }
-        return objectAnimator;
+        objectAnimator.start();
     }
 
-    public int getRotateAngel() {
-        return rotateAngel;
+    public float getRainyFraction() {
+        return rainyFraction;
     }
 
-    public void setRotateAngel(int rotateAngel) {
-        this.rotateAngel = rotateAngel;
-        invalidate();
-    }
-
-    private int rotateAngel;
-
-    public float getRainyVelocity() {
-        return rainyVelocity;
-    }
-
-    public void setRainyVelocity(float rainyVelocity) {
-        this.rainyVelocity = rainyVelocity;
+    public void setRainyFraction(float rainyFraction) {
+        this.rainyFraction = rainyFraction;
         invalidate();
     }
 
