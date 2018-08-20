@@ -130,7 +130,7 @@ Android 仿七夕爱心雨，单身狗雨
 
 这个效果的完成到这里就结束了。
 
-##### 写在最后
+#### 写在最后
 
 这是GitHub地址[**单身狗雨**](https://github.com/jetLee92/RainyViewDemo)，完整代码可以从上面fork下来。喜欢的给个star呗，谢谢。
 
